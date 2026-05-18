@@ -246,6 +246,127 @@
       border-top: 1px solid var(--border);
       color: var(--text-muted); font-size: .85rem;
     }
+
+    /* ── ANIMATIONS ── */
+
+    /* Animated hero gradient background */
+    @keyframes gradientShift {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .hero {
+      background: linear-gradient(-45deg, #0d1117, #0d1a2e, #0d1117, #111827) !important;
+      background-size: 400% 400% !important;
+      animation: gradientShift 10s ease infinite;
+    }
+
+    /* Floating particles */
+    .particles { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+    .particle {
+      position: absolute; border-radius: 50%;
+      background: rgba(88,166,255,0.15);
+      animation: float linear infinite;
+    }
+    @keyframes float {
+      0%   { transform: translateY(100vh) scale(0); opacity: 0; }
+      10%  { opacity: 1; }
+      90%  { opacity: 1; }
+      100% { transform: translateY(-100px) scale(1); opacity: 0; }
+    }
+
+    /* Typewriter cursor */
+    .typewriter::after {
+      content: '|';
+      color: var(--blue-light);
+      animation: blink .7s step-end infinite;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    /* Scroll reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Staggered children */
+    .stagger > * {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity .5s ease, transform .5s ease;
+    }
+    .stagger.visible > *:nth-child(1) { transition-delay: .05s; }
+    .stagger.visible > *:nth-child(2) { transition-delay: .15s; }
+    .stagger.visible > *:nth-child(3) { transition-delay: .25s; }
+    .stagger.visible > *:nth-child(4) { transition-delay: .35s; }
+    .stagger.visible > *:nth-child(5) { transition-delay: .45s; }
+    .stagger.visible > *:nth-child(6) { transition-delay: .55s; }
+    .stagger.visible > *:nth-child(7) { transition-delay: .65s; }
+    .stagger.visible > * { opacity: 1; transform: translateY(0); }
+
+    /* Nav slide in */
+    nav { animation: slideDown .6s ease; }
+    @keyframes slideDown {
+      from { transform: translateY(-100%); opacity: 0; }
+      to   { transform: translateY(0); opacity: 1; }
+    }
+
+    /* Hero content fade up */
+    .hero-content { animation: fadeUp .9s ease .2s both; }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Pulse glow on primary button */
+    .btn-primary {
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-primary::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: rgba(255,255,255,.15);
+      transform: translateX(-100%);
+      transition: transform .4s ease;
+    }
+    .btn-primary:hover::after { transform: translateX(100%); }
+
+    /* Section label slide in */
+    .section-label { overflow: hidden; }
+
+    /* Skill chip pop */
+    .tech-chip {
+      animation: none;
+      transition: border-color .2s, color .2s, transform .2s, box-shadow .2s;
+    }
+    .tech-chip:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 12px rgba(88,166,255,.2);
+    }
+
+    /* App card enhanced hover */
+    .app-card {
+      transition: border-color .25s, transform .25s, box-shadow .25s !important;
+    }
+    .app-card:hover {
+      box-shadow: 0 8px 32px rgba(29,111,196,.25) !important;
+    }
+
+    /* Exp card left border on hover */
+    .exp-card {
+      border-left: 3px solid transparent;
+      transition: border-color .25s, border-left-color .25s, transform .25s !important;
+    }
+    .exp-card:hover { border-left-color: var(--blue-light) !important; }
+
+    /* Counter number roll */
+    .count-num { display: inline-block; }
   </style>
 </head>
 <body>
@@ -262,9 +383,10 @@
 
 <!-- HERO -->
 <div class="hero">
+  <div class="particles" id="particles"></div>
   <div class="hero-content">
     <div class="hero-badge">📍 Syria · Available for opportunities</div>
-    <h1>Hi, I'm <span>Omar Tarboush</span></h1>
+    <h1>Hi, I'm <span class="typewriter" id="typewriter"></span></h1>
     <p>AI Engineer & Mobile Developer specializing in Flutter. I build cross-platform apps that ship to the Play Store & App Store.</p>
     <div class="hero-btns">
       <a href="#apps" class="btn btn-primary">View My Apps</a>
@@ -284,10 +406,10 @@
 </div>
 
 <!-- ABOUT -->
-<section id="about">
+<section id="about" class="reveal">
   <div class="section-label">About</div>
   <div class="section-title">Who I Am</div>
-  <div class="about-grid">
+  <div class="about-grid stagger">
     <div class="about-card">
       <h3>Summary</h3>
       <p>Passionate software developer with extensive experience in mobile and web applications. Skilled in Flutter, Firebase, and AI projects — with hands-on experience managing full project lifecycles and delivering production-ready apps.</p>
@@ -311,10 +433,10 @@
 </section>
 
 <!-- EXPERIENCE -->
-<section id="experience">
+<section id="experience" class="reveal">
   <div class="section-label">Experience</div>
   <div class="section-title">Work History</div>
-  <div class="exp-list">
+  <div class="exp-list stagger">
     <div class="exp-card">
       <div class="exp-dot"></div>
       <div class="exp-info">
@@ -363,10 +485,10 @@
 </section>
 
 <!-- APPS -->
-<section id="apps">
+<section id="apps" class="reveal">
   <div class="section-label">Portfolio</div>
   <div class="section-title">Published Apps</div>
-  <div class="apps-grid">
+  <div class="apps-grid stagger">
 
     <!-- Mapy -->
     <div class="app-card">
@@ -512,10 +634,10 @@
 </section>
 
 <!-- TECH STACK -->
-<section id="tech">
+<section id="tech" class="reveal">
   <div class="section-label">Skills</div>
   <div class="section-title">Tech Stack</div>
-  <div class="tech-grid">
+  <div class="tech-grid stagger">
     <span class="tech-chip">Flutter</span>
     <span class="tech-chip">Dart</span>
     <span class="tech-chip">GetX</span>
@@ -546,7 +668,7 @@
 </section>
 
 <!-- CONTACT -->
-<section id="contact">
+<section id="contact" class="reveal">
   <div class="contact-box">
     <h3>Let's Work Together</h3>
     <p>Have a project in mind or want to hire me? I'd love to hear from you.</p>
@@ -566,6 +688,56 @@
 </div>
 
 <script>
+  // ── PARTICLES ──
+  const container = document.getElementById('particles');
+  for (let i = 0; i < 18; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const size = Math.random() * 6 + 3;
+    p.style.cssText = `
+      width:${size}px; height:${size}px;
+      left:${Math.random()*100}%;
+      animation-duration:${Math.random()*12+8}s;
+      animation-delay:${Math.random()*10}s;
+    `;
+    container.appendChild(p);
+  }
+
+  // ── TYPEWRITER ──
+  const words = ['Omar Tarboush', 'a Flutter Developer', 'an AI Engineer', 'a Mobile Developer'];
+  let wi = 0, ci = 0, deleting = false;
+  const el = document.getElementById('typewriter');
+  function type() {
+    const word = words[wi];
+    el.textContent = deleting ? word.slice(0, ci--) : word.slice(0, ci++);
+    if (!deleting && ci > word.length)      { deleting = true; setTimeout(type, 1800); return; }
+    if (deleting && ci < 0)                 { deleting = false; wi = (wi+1) % words.length; setTimeout(type, 400); return; }
+    setTimeout(type, deleting ? 60 : 100);
+  }
+  type();
+
+  // ── SCROLL REVEAL ──
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal, .stagger').forEach(el => observer.observe(el));
+
+  // ── ACTIVE NAV LINK ──
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => { if (window.scrollY >= s.offsetTop - 120) current = s.id; });
+    navLinks.forEach(a => {
+      a.style.color = a.getAttribute('href') === '#'+current ? 'var(--text)' : '';
+    });
+  });
+
   function openLightbox(src) {
     document.getElementById('lightbox-img').src = src;
     document.getElementById('lightbox').classList.add('open');
