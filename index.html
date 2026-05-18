@@ -141,14 +141,15 @@
     .exp-location { font-size: .82rem; color: var(--text-muted); }
 
     /* APPS */
-    .apps-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.2rem; }
+    .apps-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.4rem; }
     .app-card {
       background: var(--surface); border: 1px solid var(--border);
-      border-radius: 14px; padding: 1.4rem;
+      border-radius: 16px; overflow: hidden;
       transition: border-color .2s, transform .2s;
-      display: flex; flex-direction: column; gap: .8rem;
+      display: flex; flex-direction: column;
     }
     .app-card:hover { border-color: var(--blue); transform: translateY(-3px); }
+    .app-card-body { padding: 1.4rem; display: flex; flex-direction: column; gap: .8rem; flex: 1; }
     .app-header { display: flex; align-items: center; gap: 1rem; }
     .app-icon {
       width: 56px; height: 56px; border-radius: 14px;
@@ -184,6 +185,40 @@
       background: rgba(63,185,80,.15); border: 1px solid rgba(63,185,80,.4);
       color: var(--green); padding: .25rem .7rem; border-radius: 999px;
       font-size: .75rem; font-weight: 600;
+    }
+
+    /* SCREENSHOTS CAROUSEL */
+    .screenshots {
+      display: flex; gap: .5rem; overflow-x: auto;
+      padding: 0 1.4rem 1.2rem;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      justify-content: center;
+    }
+    .screenshots::-webkit-scrollbar { height: 4px; }
+    .screenshots::-webkit-scrollbar-track { background: var(--surface2); }
+    .screenshots::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+    .screenshots img {
+      height: 200px; width: auto;
+      border-radius: 10px; flex-shrink: 0;
+      scroll-snap-align: start;
+      border: 1px solid var(--border);
+      object-fit: cover;
+      cursor: pointer;
+      transition: transform .2s;
+    }
+    .screenshots img:hover { transform: scale(1.02); }
+
+    /* LIGHTBOX */
+    .lightbox {
+      display: none; position: fixed; inset: 0; z-index: 999;
+      background: rgba(0,0,0,.88); align-items: center; justify-content: center;
+    }
+    .lightbox.open { display: flex; }
+    .lightbox img { max-height: 90vh; max-width: 90vw; border-radius: 12px; }
+    .lightbox-close {
+      position: absolute; top: 1.2rem; right: 1.5rem;
+      color: #fff; font-size: 2rem; cursor: pointer; line-height: 1;
     }
 
     /* TECH */
@@ -335,113 +370,141 @@
 
     <!-- Mapy -->
     <div class="app-card">
-      <div class="app-header">
-        <img class="app-icon" src="https://play-lh.googleusercontent.com/EKRJiflxz7ey3vXzZqGfHhcv17AHIoVmDAHazOZ97sjPlQPn3Pys5R5cBbk2JBM0YFyo=w96-h96" alt="Mapy"/>
-        <div>
-          <div class="app-name">Mapy</div>
-          <div class="app-tagline">Social & Location Discovery</div>
+      <div class="app-card-body">
+        <div class="app-header">
+          <img class="app-icon" src="https://play-lh.googleusercontent.com/EKRJiflxz7ey3vXzZqGfHhcv17AHIoVmDAHazOZ97sjPlQPn3Pys5R5cBbk2JBM0YFyo=w96-h96" alt="Mapy"/>
+          <div><div class="app-name">Mapy</div><div class="app-tagline">Social & Location Discovery</div></div>
+        </div>
+        <p class="app-desc">A social platform with Instagram-like features for discovering and sharing hidden gems around you. Connect with people nearby and explore your city.</p>
+        <div class="app-footer">
+          <a class="store-btn store-google" href="https://play.google.com/store/apps/details?id=com.ixcoders.mapy" target="_blank">▶ Play Store</a>
+          <a class="store-btn store-apple" href="https://apps.apple.com/sa/app/mapy/id6446064290" target="_blank"> App Store</a>
         </div>
       </div>
-      <p class="app-desc">A social platform with Instagram-like features for discovering and sharing hidden gems around you. Connect with people nearby and explore your city.</p>
-      <div class="app-footer">
-        <a class="store-btn store-google" href="https://play.google.com/store/apps/details?id=com.ixcoders.mapy" target="_blank">▶ Play Store</a>
-        <a class="store-btn store-apple" href="https://apps.apple.com/sa/app/mapy/id6446064290" target="_blank"> App Store</a>
+      <div class="screenshots">
+        <img src="https://play-lh.googleusercontent.com/VsAZp77RLK85O7hZYWVgJLCWNok24VbrDJBlG-cYeyJ5Grx2dD-4Dygmrw2P8ivuOQ=w400-h800" alt="Mapy screenshot 1" onclick="openLightbox(this.src)"/>
+        <img src="https://play-lh.googleusercontent.com/Zmr-MK3_wPEy30u00D4G3Pj31I6tJCtQZZJjoBxMD3jwYgt3-IQIzoczvl67a9LYCQ=w400-h800" alt="Mapy screenshot 2" onclick="openLightbox(this.src)"/>
+        <img src="https://play-lh.googleusercontent.com/8tH4LuOXn_aqNKLtEkYRgqWhktQuwt1KPoDVw7YDD4x8_bQKgkCeK0VC5aOjh4NdP2Q=w400-h800" alt="Mapy screenshot 3" onclick="openLightbox(this.src)"/>
       </div>
     </div>
 
     <!-- H1 SMS -->
     <div class="app-card">
-      <div class="app-header">
-        <img class="app-icon" src="https://play-lh.googleusercontent.com/HvFdasjnYP6eIVWwhTu9S0E6vbV_pXJkJ4hdTWIhyxqQyQaI4bkaa_XnHe9SmEyxeLQ=w96-h96" alt="H1 SMS"/>
-        <div>
-          <div class="app-name">H1 SMS</div>
-          <div class="app-tagline">Unified SMS Manager</div>
+      <div class="app-card-body">
+        <div class="app-header">
+          <img class="app-icon" src="https://play-lh.googleusercontent.com/HvFdasjnYP6eIVWwhTu9S0E6vbV_pXJkJ4hdTWIhyxqQyQaI4bkaa_XnHe9SmEyxeLQ=w96-h96" alt="H1 SMS"/>
+          <div><div class="app-name">H1 SMS</div><div class="app-tagline">Unified SMS Manager</div></div>
+        </div>
+        <p class="app-desc">Unifies all your messages from multiple numbers into one simple, secure interface. Cloud backup, PIN access, and strong encryption.</p>
+        <div class="app-footer">
+          <a class="store-btn store-google" href="https://play.google.com/store/apps/details?id=com.wealthcoders.h1sms" target="_blank">▶ Play Store</a>
+          <a class="store-btn store-apple" href="https://apps.apple.com/sa/app/h1-sms/id6737338273" target="_blank"> App Store</a>
         </div>
       </div>
-      <p class="app-desc">Unifies all your messages from multiple numbers into one simple, secure interface. Cloud backup, PIN access, and strong encryption.</p>
-      <div class="app-footer">
-        <a class="store-btn store-google" href="https://play.google.com/store/apps/details?id=com.wealthcoders.h1sms" target="_blank">▶ Play Store</a>
-        <a class="store-btn store-apple" href="https://apps.apple.com/sa/app/h1-sms/id6737338273" target="_blank"> App Store</a>
+      <div class="screenshots">
+        <img src="https://play-lh.googleusercontent.com/fY06E7cSUHeoArjOF6C0hUOYiSpszUPyDnrPmY4SlP1mcpaptm77Snaqau8sEiM7rF0=w400-h800" alt="H1 SMS screenshot 1" onclick="openLightbox(this.src)"/>
+        <img src="https://play-lh.googleusercontent.com/uMyh57Gio62V7YwKtgOZ3ZQ6-EWNoSpyQrOEfRqbjIaAPdRl-yRmZEnevZuzmm9Y4Q=w400-h800" alt="H1 SMS screenshot 2" onclick="openLightbox(this.src)"/>
+        <img src="https://play-lh.googleusercontent.com/3euWZ9Te7OO-fVhnXmTAsh1eIqka4UeXOmr2Ji-gGRi827zK44YwArQw52LIznRt7A=w400-h800" alt="H1 SMS screenshot 3" onclick="openLightbox(this.src)"/>
       </div>
     </div>
 
     <!-- Aklat24 -->
     <div class="app-card">
-      <div class="app-header">
-        <img class="app-icon" src="https://play-lh.googleusercontent.com/VAhX6ayN42fIDcyrhTiaf9b4O188ZgpuO2Y84O8YDgm2R0PgpZPDpGK05W3na-H9nJ0=w96-h96" alt="Aklat24"/>
-        <div>
-          <div class="app-name">Aklat 24</div>
-          <div class="app-tagline">Meal Sharing Platform</div>
+      <div class="app-card-body">
+        <div class="app-header">
+          <img class="app-icon" src="https://play-lh.googleusercontent.com/VAhX6ayN42fIDcyrhTiaf9b4O188ZgpuO2Y84O8YDgm2R0PgpZPDpGK05W3na-H9nJ0=w96-h96" alt="Aklat24"/>
+          <div><div class="app-name">Aklat 24</div><div class="app-tagline">Meal Sharing Platform</div></div>
+        </div>
+        <p class="app-desc">Connects meal seekers with meal providers to reduce daily food waste. Bridging the gap between supply and consumption to inspire real change.</p>
+        <div class="app-footer">
+          <a class="store-btn store-google" href="https://play.google.com/store/apps/details?id=com.inprosa.aklat24" target="_blank">▶ Play Store</a>
+          <a class="store-btn store-apple" href="https://apps.apple.com/sa/app/aklat-24/id1616309043" target="_blank"> App Store</a>
         </div>
       </div>
-      <p class="app-desc">Connects meal seekers with meal providers to reduce daily food waste. Bridging the gap between supply and consumption to inspire real change.</p>
-      <div class="app-footer">
-        <a class="store-btn store-google" href="https://play.google.com/store/apps/details?id=com.inprosa.aklat24" target="_blank">▶ Play Store</a>
-        <a class="store-btn store-apple" href="https://apps.apple.com/sa/app/aklat-24/id1616309043" target="_blank"> App Store</a>
+      <div class="screenshots">
+        <img src="https://play-lh.googleusercontent.com/QC4E37zn0g7_oYoAMPOt0Y4yURAXj8l4v1UxDdWAdamxjUbRwtnqOOGPj0Rs5IYTW8Q=w400-h800" alt="Aklat24 screenshot 1" onclick="openLightbox(this.src)"/>
+        <img src="https://play-lh.googleusercontent.com/NxykrpdMGbi-j4-j0APDScBylnjHc9V1YaD691ExZh3GZ27grKbITi2KL63ghAazzA=w400-h800" alt="Aklat24 screenshot 2" onclick="openLightbox(this.src)"/>
+        <img src="https://play-lh.googleusercontent.com/Tksdl6iLN8U_d9wkQSYPY9zQHETvaoz0QpHhKQgsW4O-1P2l_tuHeHmRZWmJT6n55ig=w400-h800" alt="Aklat24 screenshot 3" onclick="openLightbox(this.src)"/>
       </div>
     </div>
 
     <!-- H1 Mail -->
     <div class="app-card">
-      <div class="app-header">
-        <img class="app-icon" src="https://play-lh.googleusercontent.com/WWYs_Y-pbUJGJdV4ilUjdZY4MK96Tis3ToiCfKsL8Jdb_P5dz6QcY-Q9kMyDfVdiog4=w96-h96" alt="H1 Mail"/>
-        <div>
-          <div class="app-name">H1 Mail</div>
-          <div class="app-tagline">Unified Email Client</div>
+      <div class="app-card-body">
+        <div class="app-header">
+          <img class="app-icon" src="https://play-lh.googleusercontent.com/WWYs_Y-pbUJGJdV4ilUjdZY4MK96Tis3ToiCfKsL8Jdb_P5dz6QcY-Q9kMyDfVdiog4=w96-h96" alt="H1 Mail"/>
+          <div><div class="app-name">H1 Mail</div><div class="app-tagline">Unified Email Client</div></div>
+        </div>
+        <p class="app-desc">All your email accounts in one secure app. Multi-account support, PIN login, and full encryption for total privacy across all domains.</p>
+        <div class="app-footer">
+          <a class="store-btn store-google" href="https://play.google.com/store/apps/details?id=com.wealthcoders.h1mail" target="_blank">▶ Play Store</a>
+          <a class="store-btn store-apple" href="https://apps.apple.com/sa/app/h1-mail/id65045401253" target="_blank"> App Store</a>
         </div>
       </div>
-      <p class="app-desc">All your email accounts in one secure app. Multi-account support, PIN login, and full encryption for total privacy across all domains.</p>
-      <div class="app-footer">
-        <a class="store-btn store-google" href="https://play.google.com/store/apps/details?id=com.wealthcoders.h1mail" target="_blank">▶ Play Store</a>
-        <a class="store-btn store-apple" href="https://apps.apple.com/sa/app/h1-mail/id65045401253" target="_blank"> App Store</a>
+      <div class="screenshots">
+        <img src="https://play-lh.googleusercontent.com/qE0tehTKAO2Prx6_Go3l3ev96NLO5weQxMWGA19WY5HZh7_qdzoSH7KZdbsEDPaQhj8=w400-h800" alt="H1 Mail screenshot 1" onclick="openLightbox(this.src)"/>
+        <img src="https://play-lh.googleusercontent.com/TvC3yg67N0RkTC6Wi9Lgl99X2CVOWfDrKxvIjhzrbvgcocQpzd1iwlvmrnP30ugPgf4=w400-h800" alt="H1 Mail screenshot 2" onclick="openLightbox(this.src)"/>
+        <img src="https://play-lh.googleusercontent.com/8E3uw6cOyrm23_PLo2LVl09jXXuh8aSfIP9vxvyVbhzE8gr5xNDE2DJ829nDgSAXwMg=w400-h800" alt="H1 Mail screenshot 3" onclick="openLightbox(this.src)"/>
       </div>
     </div>
 
     <!-- H1 Assignment -->
     <div class="app-card">
-      <div class="app-header">
-        <img class="app-icon" src="https://play-lh.googleusercontent.com/_aJ_xoBzED6veQycccCaF5iyfRBCWffSrHW-EmZfS8w6YXefZcztFRMgzTPESzct=w96-h96" alt="H1 Assignment"/>
-        <div>
-          <div class="app-name">H1 Assignment</div>
-          <div class="app-tagline">Team Task Management</div>
+      <div class="app-card-body">
+        <div class="app-header">
+          <img class="app-icon" src="https://play-lh.googleusercontent.com/_aJ_xoBzED6veQycccCaF5iyfRBCWffSrHW-EmZfS8w6YXefZcztFRMgzTPESzct=w96-h96" alt="H1 Assignment"/>
+          <div><div class="app-name">H1 Assignment</div><div class="app-tagline">Team Task Management</div></div>
+        </div>
+        <p class="app-desc">All your team's tasks, groups, and meetings in one platform. Powerful search, role-based access, and real-time updates for smooth collaboration.</p>
+        <div class="app-footer">
+          <a class="store-btn store-google" href="https://play.google.com/store/apps/details?id=com.wealthcoders.h1task" target="_blank">▶ Play Store</a>
+          <a class="store-btn store-apple" href="https://apps.apple.com/sa/app/h1-assignment/id6478490331" target="_blank"> App Store</a>
         </div>
       </div>
-      <p class="app-desc">All your team's tasks, groups, and meetings in one platform. Powerful search, role-based access, and real-time updates for smooth collaboration.</p>
-      <div class="app-footer">
-        <a class="store-btn store-google" href="https://play.google.com/store/apps/details?id=com.wealthcoders.h1task" target="_blank">▶ Play Store</a>
-        <a class="store-btn store-apple" href="https://apps.apple.com/sa/app/h1-assignment/id6478490331" target="_blank"> App Store</a>
+      <div class="screenshots">
+        <img src="https://play-lh.googleusercontent.com/mJGUBwlJplZ_lnKJX5MjxbEBzT0aRgICWIFh0kPAgJGjLnb6__zFpI3k2Ef220t3cPOg=w400-h800" alt="H1 Assignment screenshot 1" onclick="openLightbox(this.src)"/>
+        <img src="https://play-lh.googleusercontent.com/BRdnkBWKffecKNZUVbSaPhVdAPiuPYiMYvi_YeOsPDVsvM1YywE28K9tjJR8mteWTbU=w400-h800" alt="H1 Assignment screenshot 2" onclick="openLightbox(this.src)"/>
+        <img src="https://play-lh.googleusercontent.com/G842eePJ5fOvbMkyZoSIKRttWwLjH6ESvU7e1dAEjgVvDGz-afg2BUyz5JGi2Ct7ntTl=w400-h800" alt="H1 Assignment screenshot 3" onclick="openLightbox(this.src)"/>
       </div>
     </div>
 
     <!-- Wonder Beauties -->
     <div class="app-card">
-      <div class="app-header">
-        <img class="app-icon" src="https://play-lh.googleusercontent.com/pJSSh5cnNngXia4mQhz8HdovKHVYxiRSysh5yRSjVLpFgSv8ikkXwqWpKXagKpRh6Mw=w96-h96" alt="Wonder Beauties"/>
-        <div>
-          <div class="app-name">Wonder Beauties</div>
-          <div class="app-tagline">Beauty Consultations</div>
+      <div class="app-card-body">
+        <div class="app-header">
+          <img class="app-icon" src="https://play-lh.googleusercontent.com/pJSSh5cnNngXia4mQhz8HdovKHVYxiRSysh5yRSjVLpFgSv8ikkXwqWpKXagKpRh6Mw=w96-h96" alt="Wonder Beauties"/>
+          <div><div class="app-name">Wonder Beauties</div><div class="app-tagline">Beauty Consultations</div></div>
+        </div>
+        <p class="app-desc">Free skin and hair consultations by pharmacists and doctors. Personalized product recommendations with a 4.8/5 satisfaction rating across thousands of orders.</p>
+        <div class="app-footer">
+          <a class="store-btn store-google" href="https://play.google.com/store/apps/details?id=com.wonderbeauties.app" target="_blank">▶ Play Store</a>
+          <a class="store-btn store-apple" href="https://apps.apple.com/sa/app/wonder-beauties/id6472045044" target="_blank"> App Store</a>
         </div>
       </div>
-      <p class="app-desc">Free skin and hair consultations by pharmacists and doctors. Personalized product recommendations with a 4.8/5 satisfaction rating across thousands of orders.</p>
-      <div class="app-footer">
-        <a class="store-btn store-google" href="https://play.google.com/store/apps/details?id=com.wonderbeauties.app" target="_blank">▶ Play Store</a>
-        <a class="store-btn store-apple" href="https://apps.apple.com/sa/app/wonder-beauties/id6472045044" target="_blank"> App Store</a>
+      <div class="screenshots">
+        <img src="https://play-lh.googleusercontent.com/F3AJJnD01TfwSjdg-Al8b9Vd6yqhFJmtorchC6Ip9krvPuY8X9Sib5dWBZxQiSwUTeHu=w400-h800" alt="Wonder Beauties screenshot 1" onclick="openLightbox(this.src)"/>
+        <img src="https://play-lh.googleusercontent.com/7l2Mn1xjo4jx8aDr64BO03tPnWbVft2MwyYmwd3s6uYT42BrSkROGsFUqjOgrj3BdnY=w400-h800" alt="Wonder Beauties screenshot 2" onclick="openLightbox(this.src)"/>
+        <img src="https://play-lh.googleusercontent.com/z_qXSIyddrtlM1cBAyChrK-puSyHC5iiH4uDnAsczI6tTSfADNQkb_TUPP02Mp2aEzs=w400-h800" alt="Wonder Beauties screenshot 3" onclick="openLightbox(this.src)"/>
       </div>
     </div>
 
     <!-- Account — Personal Project -->
     <div class="app-card">
-      <div class="app-header">
-        <div class="app-icon-placeholder">👤</div>
-        <div>
-          <div class="app-name">Account</div>
-          <div class="app-tagline">User Accounts Manager</div>
+      <div class="app-card-body">
+        <div class="app-header">
+          <div class="app-icon-placeholder" style="background:linear-gradient(135deg,#7B61FF,#5B8DEF);">📊</div>
+          <div><div class="app-name">Account</div><div class="app-tagline">Finance & Account Manager</div></div>
+        </div>
+        <p class="app-desc">A personal finance app for tracking income, expenses, and wallets across multiple currencies. Supports dark/light mode, multi-user roles, and real-time balance updates.</p>
+        <div class="app-footer">
+          <span class="badge-own">Personal Project</span>
+          <span class="badge-wip">Coming Soon</span>
         </div>
       </div>
-      <p class="app-desc">A personal project for managing user accounts and profiles in one place. Clean interface with secure access control and account organization.</p>
-      <div class="app-footer">
-        <span class="badge-own">Personal Project</span>
-        <span class="badge-wip">Coming Soon</span>
+      <div class="screenshots">
+        <img src="account-screen1.png" alt="Account profile" onclick="openLightbox(this.src)"/>
+        <img src="account-screen2.png" alt="Account add income" onclick="openLightbox(this.src)"/>
+        <img src="account-screen3.png" alt="Account add expense" onclick="openLightbox(this.src)"/>
       </div>
     </div>
 
@@ -498,6 +561,25 @@
 <footer>
   <p>© 2025 Omar Tarboush · Built with ❤️ and deployed on GitHub Pages</p>
 </footer>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <span class="lightbox-close" onclick="closeLightbox()">✕</span>
+  <img id="lightbox-img" src="" alt="Screenshot"/>
+</div>
+
+<script>
+  function openLightbox(src) {
+    document.getElementById('lightbox-img').src = src;
+    document.getElementById('lightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+</script>
 
 </body>
 </html>
